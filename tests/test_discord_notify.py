@@ -542,7 +542,7 @@ class TestMain:
         ])
         assert main() == 1
 
-    def test_no_webhook_skips_gracefully(self, monkeypatch):
+    def test_no_webhook_skips_gracefully(self, monkeypatch, capsys):
         monkeypatch.delenv('DISCORD_WEBHOOK', raising=False)
         monkeypatch.setattr(sys, 'argv', [
             'discord_notify.py',
@@ -550,6 +550,9 @@ class TestMain:
             '--data', json.dumps({'version': '25H2', 'build_type': 'Nano', 'edition': 'Home'})
         ])
         assert main() == 0
+        captured = capsys.readouterr()
+        assert "WARNING: No Discord webhook configured" in captured.out
+        assert captured.out.isascii()
 
     @patch('requests.post')
     def test_webhook_env_var_fallback(self, mock_post, monkeypatch):

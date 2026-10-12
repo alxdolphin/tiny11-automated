@@ -416,7 +416,7 @@ def main():
 
     webhook_url = args.webhook or os.environ.get('DISCORD_WEBHOOK', '')
     if not webhook_url:
-        print(f"⚠️  No Discord webhook configured for '--type {args.type}' "
+        print(f"WARNING: No Discord webhook configured for '--type {args.type}' "
               "(pass --webhook or set DISCORD_WEBHOOK); skipping notification.")
         return 0
 
@@ -494,4 +494,3 @@ def main():
 
 if __name__ == '__main__':
     sys.exit(main())
-
